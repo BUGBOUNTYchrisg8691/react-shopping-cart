@@ -1,4 +1,4 @@
-import { ADD, REMOVE } from "./../actions";
+import { ADD, REMOVE, GET_FROM_STORAGE, SET_STORAGE } from "./../actions";
 
 export const initialState = {
   products: [
@@ -37,15 +37,24 @@ export const initialState = {
 export default (state, action) => {
   switch (action.type) {
     case ADD:
-      //setCart([...cart, item]);
       return {
         ...state,
+        cart: [...state.cart, action.payload],
       };
     case REMOVE:
-      //setCart(cart.filter((item) => item.id !== id));
       return {
         ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload),
       };
+    case GET_FROM_STORAGE:
+      if (typeof action.payload === "undefined") {
+        return state;
+      } else {
+        return {
+          ...state,
+          cart: action.payload,
+        };
+      }
     default:
       return state;
   }

@@ -18,22 +18,21 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import reducer, { initialState } from "./store/reducers";
 
 // Actions Creators
-import { addItemAC, removeItemAC } from "./store/actions";
+import { addItemAC, removeItemAC, getFromStorage } from "./store/actions";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [storage, setStorage] = useLocalStorage("cart");
+
   const { products, cart } = state;
-  //const [storage, setStorage] = useLocalStorage("cart");
 
-  //useEffect(() => {
-  //if (storage) {
-  //setCart(storage);
-  //}
-  //}, []);
+  useEffect(() => {
+    dispatch(getFromStorage(storage));
+  }, []);
 
-  //useEffect(() => {
-  //setStorage(cart);
-  //}, [cart]);
+  useEffect(() => {
+    setStorage(cart);
+  }, [cart]);
 
   const addItem = (item) => {
     // add the given item to the cart
